@@ -1,0 +1,159 @@
+[
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Addresses",
+    "guessCellType": true,
+    "removeOriginalColumn": false,
+    "mode": "separator",
+    "separator": "; [",
+    "regex": false,
+    "maxColumns": 2,
+    "description": "Split column Addresses by separator"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Addresses 1",
+    "newColumnName": "First AU Affiliation",
+    "description": "Rename column Addresses 1 to First AU Affiliation"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Addresses 2",
+    "description": "Remove column Addresses 2"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "First AU Affiliation",
+    "expression": "grel:smartSplit(value, ' ')[-1]",
+    "onError": "set-to-blank",
+    "newColumnName": "First AU Country",
+    "columnInsertIndex": 24,
+    "description": "Create column First AU Country at index 24 based on column First AU Affiliation using expression grel:smartSplit(value, ' ')[-1]"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "First AU Country",
+    "expression": "grel:(value.contains(\"Kenya\"))",
+    "onError": "set-to-blank",
+    "newColumnName": "Kenyan First AU?",
+    "columnInsertIndex": 25,
+    "description": "Create column Kenyan First AU? at index 25 based on column First AU Country using expression grel:(value.contains(\"Kenya\"))"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Addresses",
+    "expression": "grel:smartSplit(value, ' ')[-1]",
+    "onError": "set-to-blank",
+    "newColumnName": "Last AU Country",
+    "columnInsertIndex": 23,
+    "description": "Create column Last AU Country at index 23 based on column Addresses using expression grel:smartSplit(value, ' ')[-1]"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "Last AU Country",
+    "index": 24,
+    "description": "Move column Last AU Country to position 24"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "Last AU Country",
+    "index": 25,
+    "description": "Move column Last AU Country to position 25"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "Last AU Country",
+    "index": 26,
+    "description": "Move column Last AU Country to position 26"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Addresses",
+    "guessCellType": true,
+    "removeOriginalColumn": false,
+    "mode": "separator",
+    "separator": "; [",
+    "regex": false,
+    "maxColumns": 2,
+    "description": "Split column Addresses by separator"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Addresses 2",
+    "expression": "grel:if(cells[\"Addresses 1\"].value == cells[\"Addresses 2\"].value, \"Y\", \"N\")",
+    "onError": "set-to-blank",
+    "newColumnName": "Flag - multiple affiliation",
+    "columnInsertIndex": 25,
+    "description": "Create column Flag - multiple affiliation at index 25 based on column Addresses 2 using expression grel:if(cells[\"Addresses 1\"].value == cells[\"Addresses 2\"].value, \"Y\", \"N\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Addresses 1",
+    "expression": "value.replace(\"[\",\"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Addresses 1 using expression value.replace(\"[\",\"\")"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Flag - multiple affiliation",
+    "description": "Remove column Flag - multiple affiliation"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Addresses 2",
+    "expression": "grel:if(cells[\"Addresses 1\"].value == cells[\"Addresses 2\"].value, \"Y\", \"N\")",
+    "onError": "set-to-blank",
+    "newColumnName": "Dual Affiliation Flag",
+    "columnInsertIndex": 25,
+    "description": "Create column Dual Affiliation Flag at index 25 based on column Addresses 2 using expression grel:if(cells[\"Addresses 1\"].value == cells[\"Addresses 2\"].value, \"Y\", \"N\")"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Dual Affiliation Flag",
+    "description": "Remove column Dual Affiliation Flag"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Addresses 2",
+    "description": "Remove column Addresses 2"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Addresses 1",
+    "description": "Remove column Addresses 1"
+  }
+]
